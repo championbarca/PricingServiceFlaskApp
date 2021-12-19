@@ -8,10 +8,13 @@
     <div class="list-group mb-3">
         {% for alert in alerts %}
             <div class="list-group-item">
-              <h4>Alerts</h4>
+              <h4>{{ alert.name }}</h4>
               <p>
-                  <a href="{{alert.item.url}}">{{ alert.item.url }}</a>
+                  <a href="{{alert.item.url}}">{{ alert.item.url }} (last price ${{ alert.item.price }})</a>
               </p>
+              <a class="btn btn-secondary" href="{{ url_for('alerts.edit_alert', alert_id=alert._id) }}">
+                  Edit
+              </a>
             </div>
         {% endfor %}
     </div>

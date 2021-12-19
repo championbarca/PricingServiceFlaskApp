@@ -12,10 +12,8 @@ class Item(Model):
     url:str
     tag_name:str
     query:str
+    price:float = field(default=None)
     _id:str = field(default_factory=lambda: uuid.uuid4().hex)
-    
-    def __post_init__(self):
-        self.price = None
         
     def load_price(self) -> None:
         response = requests.get(self.url, headers={'User-Agent': 'Mozilla/5.0'}, verify=True, timeout=10)
@@ -35,5 +33,6 @@ class Item(Model):
             "_id" : self._id,
             "url" : self.url,
             "tag_name" : self.tag_name,
+            "price": self.price,
             "query" : self.query
         }
