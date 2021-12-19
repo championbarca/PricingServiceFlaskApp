@@ -5,7 +5,7 @@ from models.model import Model
 
 
 class Store(Model):
-    collection = "stores"
+    collection = "store"
 
     def __init__(self, name:str, url_prefix:str, tag_name:str, query: Dict, _id:str = None):
         super().__init__()
@@ -40,5 +40,5 @@ class Store(Model):
         """
         pattern = re.compile(r"https?://.*?/")
         match = pattern.search(url)
-        url_prefix = match.group(1)
+        url_prefix = match.group(0)
         return cls.get_by_url_prefix(url_prefix)

@@ -9,7 +9,6 @@
 
 from common.Database import Database
 
-alerts = Database.find("alerts", {})
-item = Database.find_one("items", {"_id": alerts[0]["item_id"]})
-print(item["url"])
+Database.find_one(cls.collection, {attribute: value})
+
 
