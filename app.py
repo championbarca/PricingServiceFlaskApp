@@ -9,20 +9,32 @@
 # if __name__ == "__main__":
 #     app.run()
 
-from models.item import Item
+# from models.item import Item
 
-URL = f"https://www.johnlewis.com/2021-apple-ipad-pro-12-9-inch-m1-processor-ios-wi-fi-256gb/p5551833"
-TAG_NAME = "p"
-QUERY = {"class": "price price--large"}
+# URL = f"https://www.johnlewis.com/2021-apple-ipad-pro-12-9-inch-m1-processor-ios-wi-fi-256gb/p5551833"
+# TAG_NAME = "p"
+# QUERY = {"class": "price price--large"}
 
-ipad = Item(URL, TAG_NAME, QUERY)
-ipad.save_to_mongo()
-items_loaded = Item.all()
-print(items_loaded)
-print(items_loaded[0].load_price())
+# ipad = Item(URL, TAG_NAME, QUERY)
+# ipad.save_to_mongo()
+# items_loaded = Item.all()
+# print(items_loaded)
+# print(items_loaded[0].load_price())
 
-from models.alert import Alert
+# from models.alert import Alert
 
-alert = Alert("2702b35d761f4cbdb986f7ec73d6c77e", 1200)
-alert.save_to_mongo()
+# alert = Alert("2702b35d761f4cbdb986f7ec73d6c77e", 1200)
+# alert.save_to_mongo()
 
+import json
+from flask import Flask
+from views.items import item_blueprint
+from views.alerts import alert_blueprint
+
+app = Flask(__name__)
+
+app.register_blueprint(item_blueprint, url_prefix="/items")
+app.register_blueprint(alert_blueprint, url_prefix="/alerts")
+
+if __name__ == "__main__":
+    app.run(debug=True)

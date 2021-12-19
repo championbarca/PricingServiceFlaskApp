@@ -23,7 +23,7 @@ class Model(metaclass = ABCMeta):
 
     @classmethod
     def get_by_id(cls: Type[T], _id:str) -> T:
-        return cls.find_one_by("id", _id)
+        return cls.find_one_by("_id", _id)
 
     @classmethod
     def all(cls: Type[T]) -> List[T]:
