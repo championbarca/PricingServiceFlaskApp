@@ -2,22 +2,20 @@ from typing import Dict
 import re
 import requests
 import uuid
+from dataclasses import dataclass, field
 from bs4 import BeautifulSoup
 from models.model import Model
 
+@dataclass(eq=False)
 class Item(Model):
-    collection = "items"
-    def __init__(self, url:str, tag_name:str, query:Dict, _id:str = None) -> None:
-        super().__init__()
-        self.url = url
-        self.tag_name = tag_name
-        self.query = query
+    collection:str = field(init=False, default="items")
+    url:str
+    tag_name:str
+    query:str
+    _id:str = field(default_factory=lambda: uuid.uuid4().hex)
+    
+    def __post_init__(self):
         self.price = None
-        
-        self._id = _id or uuid.uuid4().hex
-
-    def __repr__(self):
-        return f"<Item {self.url}>"
         
     def load_price(self) -> None:
         response = requests.get(self.url, headers={'User-Agent': 'Mozilla/5.0'}, verify=True, timeout=10)
