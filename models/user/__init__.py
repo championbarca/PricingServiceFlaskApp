@@ -1,2 +1,2 @@
 from models.user.user import User
-from models.user.errors as UserErrors
+import models.user.errors as UserErrors

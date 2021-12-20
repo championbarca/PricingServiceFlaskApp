@@ -3,6 +3,7 @@ from dataclasses import dataclass, field
 from typing import Dict
 from models.model import Model
 import models.user.errors as UserErrors
+from common.utils import Utils
 
 @dataclass
 class User(Model):
@@ -27,8 +28,16 @@ class User(Model):
             user = cls.find_by_email(email)
             raise UserErrors.UserAlreadyRegisteredError("The e-mail you used to register already exists.")
         except UserErrors.UserNotFoundError:
-            User(email, password).save_to_mongo()
+            User(email, Utils.hash_password(password)).save_to_mongo()
 
+        return True
+
+    @classmethod
+    def is_valid_login(cls, email:str, password:str) -> bool:
+        user = cls.find_by_email(email)
+        if not Utils.check_hashed_password(password, user.password):
+            raise UserErrors.IncorrectPasswordError("Your password is incorrect.")
+        
         return True
 
     def json(self) -> Dict:
