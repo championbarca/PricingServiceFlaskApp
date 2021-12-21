@@ -7,7 +7,7 @@ store_blueprint = Blueprint("stores", __name__)
 @store_blueprint.route('/')
 def index():
     stores = Store.all()
-    return render_template("store/store_index.html", stores=stores)
+    return render_template("stores/store_index.html", stores=stores)
 
 @store_blueprint.route('/new', methods=['GET', 'POST'])
 def create_store():
@@ -19,11 +19,11 @@ def create_store():
         
         Store(name, url_prefix, tag_name, query).save_to_mongo()
         
-    return render_template("store/new_store.html")
+    return render_template("stores/new_store.html")
 
 
 @store_blueprint.route('/edit/<string:store_id>', methods=['GET', 'POST'])
-def edit_alert(store_id):
+def edit_store(store_id):
     store = Store.get_by_id(store_id)
     if request.method == "POST":
         store.url_prefix = float(request.form["url_prefix"])
@@ -33,7 +33,7 @@ def edit_alert(store_id):
         store.save_to_mongo()
         return redirect(url_for('.index'))
     
-    return render_template("stores/edit_store.html", store=store)
+    return render_template("stores/edit_store.html", store=store._id)
 
 
 @store_blueprint.route('/delete/<string:store_id>')

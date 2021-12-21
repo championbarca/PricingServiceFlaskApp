@@ -5,7 +5,7 @@ from flask import session, flash, redirect, url_for, request
 def requires_login(f: Callable) -> Callable:
     @functools.wraps(f)
     def decorated_function(*args, **kwargs):
-        if not session['email']:
+        if 'email' not in session or not session['email']:
             flash("You need to be signed in for this page", 'danger')
             return redirect(url_for('users.login_user'))
         return f(*args, **kwargs)
